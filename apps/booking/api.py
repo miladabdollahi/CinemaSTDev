@@ -19,11 +19,18 @@ class BookingViewSet(mixins.CreateModelMixin, CoreViewSet):
     def perform_create(self, serializer):
         movie_schedule = get_object_or_404(MovieSchedule, id=serializer.validated_data.get('movie_schedule_id'))
         try:
-            Booking.objects.create(
-                seat_id=serializer.validated_data.get('seat_id'),
-                movie_schedule_id=serializer.validated_data.get('movie_schedule_id'),
-                movie_start=movie_schedule.start_time,
-                movie_end=movie_schedule.end_time
-            )
+            booking_list = list()
+            movie_schedule_id = serializer.validated_data.get('movie_schedule_id')
+            for seat_id in serializer.validated_data.get('seat_ids'):
+                booking_list.append(
+                    Booking(
+                        seat_id=seat_id,
+                        movie_schedule_id=movie_schedule_id,
+                        movie_start=movie_schedule.start_time,
+                        movie_end=movie_schedule.end_time
+                    )
+                )
+
+            Booking.objects.bulk_create(booking_list)
         except IntegrityError:
-            raise ValidationError("This movie already has a schedule at this time.")
+            raise ValidationError("One of send your seat already booked at this time.")

@@ -10,5 +10,5 @@ class BookingBaseSerializer(serializers.ModelSerializer):
 
 
 class BookingCreateSerializer(serializers.Serializer):
-    seat_id = serializers.IntegerField()
+    seat_ids = serializers.ListField()
     movie_schedule_id = serializers.IntegerField()

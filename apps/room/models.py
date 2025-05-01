@@ -31,7 +31,7 @@ class Seat(models.Model):
 
     class Meta:
         unique_together = ('room', 'chair_code', 'is_active')
-        ordering = ('-created_time',)
+        ordering = ('chair_code',)
 
     def __str__(self):
         return f"Seat {self.chair_code} in {self.room.name}"

@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from apps.movie.models import MovieSchedule
@@ -22,7 +23,8 @@ class MovieScheduleListSerializer(serializers.ModelSerializer):
         return dict(
             title=obj.movie.title,
             start_time=obj.start_time,
-            end_time=obj.end_time
+            end_time=obj.end_time,
+            poster_image=f'{settings.BASE_URL}{obj.movie.poster.url}'
         )
 
     @staticmethod

@@ -28,4 +28,4 @@ class Movie(models.Model):
         ordering = ('-created_time',)
 
     def __str__(self):
-        return f"{self.title} ({self.start_time} - {self.end_time})"
+        return f"{self.title}"
